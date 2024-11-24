@@ -70,7 +70,7 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
 
 ## Model Building
 
-1. Random Forest for Feature Selection
+1. **Random Forest for Feature Selection**
 
 - Identified the top 5 features:
   
@@ -81,7 +81,7 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
   - **Daily Steps**
 
 
-2. Neural Network
+2. **Neural Network**
 
 - Architecture:
   
@@ -101,7 +101,7 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
   - Early stopping and learning rate reduction.
 
 
-3. LightGBM Meta-Model
+3. **LightGBM Meta-Model**
 
 - Combined:
 
@@ -118,3 +118,110 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
 
 - Neural Network Accuracy: 90.91%
 - Meta-Model Accuracy: 90.91%
+
+## Testing Pipeline
+
+  ```bash
+  import numpy as np
+  import pandas as pd
+  import joblib
+  from tensorflow.keras.models import load_model
+  
+  nn_model = load_model("neural.h5")
+  meta_model = joblib.load("optim.pkl")
+  scaler = joblib.load("scaler.pkl")
+  rf_model = joblib.load("rf_model.pkl")
+  sleep_disorder_encoder = joblib.load("sleep_disorder_encoder.pkl")
+  top_feature_names = joblib.load("top_feature_names.pkl")
+  
+  test_data = {
+      "BMI Category": 2,
+      "Age": 35,
+      "Sleep Duration": 7.4,
+      "Physical Activity Level": 60,
+      "Daily Steps": 3300,
+  }
+  
+  test_df = pd.DataFrame([test_data])[top_feature_names]
+  test_scaled = scaler.transform(test_df)
+  
+  nn_predictions = nn_model.predict(test_scaled)
+  nn_predicted_class = np.argmax(nn_predictions, axis=1)[0]
+  nn_predicted_label = sleep_disorder_encoder.inverse_transform([nn_predicted_class])[0]
+  
+  rf_probs = rf_model.predict_proba(test_scaled)
+  
+  meta_features = np.hstack([nn_predictions, rf_probs, test_scaled])
+  meta_predicted_class = meta_model.predict(meta_features)[0]
+  meta_predicted_label = sleep_disorder_encoder.inverse_transform([meta_predicted_class])[0]
+  
+  nn_confidence = nn_predictions[0, nn_predicted_class]
+  final_prediction = nn_predicted_label if nn_confidence > 0.7 else meta_predicted_label
+  
+  print(f"NN Predicted: {nn_predicted_label}")
+  print(f"Meta Predicted: {meta_predicted_label}")
+  print(f"Final Prediction: {final_prediction}")
+  ```
+
+## Deployment
+
+ - **Option 1: Flask App**
+
+   Install Dependencies:
+
+   ```bash
+   pip install flask tensorflow joblib pandas numpy lightgbm
+   ```
+
+   Create app.py:
+
+   ```bash
+   from flask import Flask, request, jsonify
+   import numpy as np
+   import pandas as pd
+   import joblib
+   from tensorflow.keras.models import load_model
+    
+   app = Flask(__name__)
+    
+    # Load Models and Artifacts
+   nn_model = load_model("new_neural.h5")
+   meta_model = joblib.load("optim.pkl")
+   scaler = joblib.load("scaler.pkl")
+   rf_model = joblib.load("rf_model.pkl")
+   sleep_disorder_encoder = joblib.load("sleep_disorder_encoder.pkl")
+   top_feature_names = joblib.load("top_feature_names.pkl")
+    
+   @app.route('/predict', methods=['POST'])
+   def predict():
+       data = request.json
+       test_df = pd.DataFrame([data])[top_feature_names]
+       test_scaled = scaler.transform(test_df)
+    
+       nn_predictions = nn_model.predict(test_scaled)
+       nn_predicted_class = np.argmax(nn_predictions, axis=1)[0]
+       nn_predicted_label = sleep_disorder_encoder.inverse_transform([nn_predicted_class])[0]
+  
+       rf_probs = rf_model.predict_proba(test_scaled)
+       meta_features = np.hstack([nn_predictions, rf_probs, test_scaled])
+       meta_predicted_class = meta_model.predict(meta_features)[0]
+       meta_predicted_label = sleep_disorder_encoder.inverse_transform([meta_predicted_class])[0]
+    
+       nn_confidence = nn_predictions[0, nn_predicted_class]
+       final_prediction = nn_predicted_label if nn_confidence > 0.7 else meta_predicted_label
+    
+       return jsonify({
+           "NN Predicted": nn_predicted_label,
+           "Meta Predicted": meta_predicted_label,
+           "Final Prediction": final_prediction
+        })
+    
+    if __name__ == '__main__':
+        app.run(debug=True)
+    ```
+
+    Run the App:
+
+    ```bash
+    python app.py
+    ```
