@@ -1,8 +1,8 @@
-#Predicting Sleep Disorders with Neural Networks and Meta-Model Integration
+# Predicting Sleep Disorders with Neural Networks and Meta-Model Integration
 
 This project is an advanced machine learning pipeline to predict sleep disorders like Insomnia, Sleep Apnea, or Healthy status using a combination of Neural Networks, Random Forest, and a LightGBM meta-model. The pipeline has been optimized for accuracy, achieving an outstanding 90.91% accuracy, surpassing most research papers using traditional models like Random Forest and XGBoost.
 
-##Table of Contents
+## Table of Contents
 
 Introduction
 Features
@@ -14,11 +14,11 @@ Deployment
 Conclusion
 Usage
 
-##Introduction
+## Introduction
 
 Sleep disorders affect millions of individuals worldwide. Early and accurate detection can improve quality of life. This project builds a predictive model using a hybrid approach that outperforms traditional machine learning techniques.
 
-##Features
+## Features
 - Dataset preprocessing with SMOTE for class balancing.
 - Noise addition via data augmentation.
 - Feature selection using Random Forest.
@@ -35,47 +35,48 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
   -**Top 5 features**
 
 
-##Dataset Preprocessing
+## Dataset Preprocessing
 
-    1. Dataset Columns:
+  1. Dataset Columns:
 
-    - BMI Category, Age, Sleep Duration, Physical Activity Level, Daily Steps, Heart Rate, Stress Level, Quality of Sleep, and Gender.
+  - BMI Category, Age, Sleep Duration, Physical Activity Level, Daily Steps, Heart Rate, Stress Level, Quality of Sleep, and Gender.
 
-    2. Steps:
+  2. Steps:
 
-    - Handled missing values using column means
+  - Handled missing values using column means
     
-    - Encoded categorical features:
+  - Encoded categorical features:
     
-      - BMI Category: Normal (0), Overweight (1), Obese (2).
-      - Gender: Encoded with LabelEncoder.
+    - BMI Category: Normal (0), Overweight (1), Obese (2).
+    - Gender: Encoded with LabelEncoder.
 
-    - Target variable (Sleep Disorder) mapping:
+  - Target variable (Sleep Disorder) mapping:
     
-      - Healthy (0), Insomnia (1), Sleep Apnea (2).
+    - Healthy (0), Insomnia (1), Sleep Apnea (2).
 
 
-    3. Feature Standardization:
+  3. Feature Standardization:
     
-      - Applied StandardScaler to normalize numerical features.
+  - Applied StandardScaler to normalize numerical features.
 
-    4. Class Balancing with SMOTE:
+  4. Class Balancing with SMOTE:
     
-      - Ensured equal representation for all classes.
+  - Ensured equal representation for all classes.
 
-    5. Data Augmentation:
+  5. Data Augmentation:
     
-      - Added Gaussian noise for training robustness.
+  - Added Gaussian noise for training robustness.
 
 
-Model Building
+## Model Building
+
 1. Random Forest for Feature Selection
-Identified the top 5 features:
-BMI Category
-Age
-Sleep Duration
-Physical Activity Level
-Daily Steps
+- Identified the top 5 features:
+  - BMI Category
+  - Age
+  - Sleep Duration
+  - Physical Activity Level
+  - Daily Steps
 
 
 2. Neural Network
