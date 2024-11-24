@@ -111,7 +111,7 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
 
 - Regularization parameters:
   
- - **reg_alpha=2.0, reg_lambda=2.0**
+  - **reg_alpha=2.0, reg_lambda=2.0**
 
 
 ## Training Results:
