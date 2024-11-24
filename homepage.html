@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SleepCare India - Sleep Disorder Detection</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background-color: #f0f2f5;
+        }
+
+        nav {
+            position: fixed;
+            width: 100%;
+            padding: 20px 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: #1a237e;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #1a237e;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #3949ab;
+        }
+
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)),
+                        url('ladysleeping.png');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            max-width: 800px;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 18px;
+            max-width: 600px;
+            margin-bottom: 30px;
+            line-height: 1.6;
+        }
+
+        .cta-button {
+            background: #3949ab;
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            cursor: pointer;
+            width: fit-content;
+            transition: background 0.3s ease;
+        }
+
+        .cta-button:hover {
+            background: #283593;
+        }
+
+        .info-cards {
+            display: flex;
+            gap: 20px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .info-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 15px;
+            max-width: 300px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .info-card h3 {
+            margin-bottom: 15px;
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .info-card p {
+            color: rgba(255, 255, 255, 0.9);
+            line-height: 1.6;
+        }
+
+        .statistics {
+            padding: 80px 100px;
+            background: white;
+        }
+
+        .statistics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .stat-card {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 15px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-number {
+            font-size: 36px;
+            color: #1a237e;
+            margin-bottom: 10px;
+        }
+
+        .symptoms {
+            padding: 80px 100px;
+            background: #f0f2f5;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            color: #1a237e;
+            margin-bottom: 15px;
+        }
+
+        .section-title p {
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .symptom-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .symptom-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .symptom-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .symptom-img {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .symptom-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .symptom-content {
+            padding: 25px;
+        }
+
+        .symptom-content h3 {
+            color: #1a237e;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .symptom-content p {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .causes {
+            padding: 80px 100px;
+            background: white;
+        }
+
+        .causes-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .cause-card {
+            padding: 25px;
+            border-radius: 15px;
+            background: #f8f9fa;
+            transition: transform 0.3s ease;
+        }
+
+        .cause-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .cause-icon {
+            width: 60px;
+            height: 60px;
+            background: #3949ab;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+            color: white;
+            font-size: 24px;
+        }
+
+        .treatment {
+            padding: 80px 100px;
+            background: #f0f2f5;
+        }
+
+        .treatment-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .treatment-card {
+            background: white;
+            padding: 25px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            background: #1a237e;
+            color: white;
+            padding: 50px 100px;
+            text-align: center;
+        }
+
+        @media (max-width: 768px) {
+            .hero {
+                padding: 50px 20px;
+            }
+
+            .statistics,
+            .symptoms,
+            .causes,
+            .treatment {
+                padding: 50px 20px;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            nav {
+                padding: 20px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">SleepCare India</div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#statistics">Statistics</a>
+            <a href="#symptoms">Symptoms</a>
+            <a href="#causes">Causes</a>
+            <a href="#treatment">Treatment</a>
+        </div>
+    </nav>
+
+    <section class="hero" id="home">
+        <h1>Understanding Sleep Disorders in India</h1>
+        <p>Sleep disorders affect millions across India, impacting both urban and rural populations. Early detection and proper treatment can help you regain healthy sleep patterns and improve your quality of life.</p>
+        <a href="assessment.html" class="cta-button" style="text-decoration: none; display: inline-block;">Take Sleep Assessment →</a>
+        <div class="info-cards">
+            <div class="info-card">
+                <h3>Indian Sleep Statistics</h3>
+                <p>93% of Indians are sleep-deprived, getting less than 8 hours of sleep per night. 11% of the population suffers from chronic sleep disorders.</p>
+            </div>
+            <div class="info-card">
+                <h3>Urban Impact</h3>
+                <p>Urban Indians are sleeping 20% less than their rural counterparts due to longer work hours, digital device usage, and lifestyle changes.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="statistics" id="statistics">
+        <div class="section-title">
+            <h2>Sleep Disorder Statistics in India</h2>
+            <p>Recent studies reveal concerning trends about sleep health in India</p>
+        </div>
+        <div class="statistics-grid">
+            <div class="stat-card">
+                <div class="stat-number">93%</div>
+                <p>Indians are sleep-deprived</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">33%</div>
+                <p>Suffer from insomnia</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">13.7%</div>
+                <p>Have sleep apnea</p>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">45%</div>
+                <p>Have stress-related sleep issues</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="symptoms" id="symptoms">
+        <div class="section-title">
+            <h2>Common Sleep Disorders</h2>
+            <p>Understanding the symptoms is the first step towards better sleep health</p>
+        </div>
+        <div class="symptom-grid">
+            <div class="symptom-card">
+                <div class="symptom-img">
+                    <img src="insomia.jpg" alt="Insomnia">
+                </div>
+                <div class="symptom-content">
+                    <h3>Insomnia</h3>
+                    <p>Affects 33% of Indians, particularly high among IT professionals and shift workers. Symptoms include difficulty falling asleep and maintaining sleep.</p>
+                </div>
+            </div>
+            <div class="symptom-card">
+                <div class="symptom-img">
+                    <img src="sleepapnea.png" alt="Sleep Apnea">
+                </div>
+                <div class="symptom-content">
+                    <h3>Sleep Apnea</h3>
+                    <p>13.7% of Indians suffer from sleep apnea, with higher rates among middle-aged men. Characterized by breathing interruptions during sleep.</p>
+                </div>
+            </div>
+            <div class="symptom-card">
+                <div class="symptom-img">
+                    <img src="shiftwork.jpg" alt="Shift Work Disorder">
+                </div>
+                <div class="symptom-content">
+                    <h3>Shift Work Disorder</h3>
+                    <p>Common among India's growing BPO and healthcare workforce. Disrupts natural sleep-wake cycles.</p>
+                </div>
+            </div>
+            <div class="symptom-card">
+                <div class="symptom-img">
+                    <img src="sleeping-disorder.jpg" alt="Stress-Related Sleep Issues">
+                </div>
+                <div class="symptom-content">
+                    <h3>Stress-Related Sleep Issues</h3>
+                    <p>Nearly 45% of Indians suffer from stress-related sleep issues, particularly in metropolitan areas.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="causes" id="causes">
+        <div class="section-title">
+            <h2>Major Causes in Indian Context</h2>
+            <p>Understanding the unique factors affecting sleep health in India</p>
+        </div>
+        <div class="causes-container">
+            <div class="cause-card">
+                <div class="cause-icon">📱</div>
+                <h3>Technology & Lifestyle</h3>
+                <p>88% of Indians use smartphones before bedtime. Extended screen time affects 76% of urban Indians' sleep quality.</p>
+            </div>
+            <div class="cause-card">
+                <div class="cause-icon">🏢</div>
+                <h3>Work Culture</h3>
+                <p>Indian professionals work 8-10% longer than global averages, with many in IT sector working across time zones.</p>
+            </div>
+            <div class="cause-card">
+                <div class="cause-icon">🌡️</div>
+                <h3>Environmental Factors</h3>
+                <p>High temperatures, noise pollution in urban areas, and poor air quality affect sleep quality for 65% of Indians.</p>
+            </div>
+            <div class="cause-card">
+                <div class="cause-icon">🍲</div>
+                <h3>Dietary Habits</h3>
+                <p>Late-night eating habits, common in Indian households, affect sleep patterns of 52% of the population.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="treatment" id="treatment">
+        <div class="section-title">
+            <h2>Treatment Options</h2>
+            <p>Modern and traditional approaches to treating sleep disorders</p>
+        </div>
+        <div class="treatment-cards">
+            <div class="treatment-card">
+                <h3>Medical Treatment</h3>
+                <p>Professional diagnosis and treatment through sleep studies, medication, and therapy.</p>
+            </div>
+            <div class="treatment-card">
+                <h3>Lifestyle Changes</h3>
+                <p>Implementing better sleep hygiene, regular exercise, and stress management techniques.</p>
+            </div>
+            <div class="treatment-card">
+                <h3>Traditional Remedies</h3>
+                <p>Ayurvedic treatments, yoga, and meditation for improved sleep quality.</p>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <p>© 2024 SleepCare India. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add sticky navigation on scroll
+        window.addEventListener('scroll', function() {
+            const nav = document.querySelector('nav');
+            if (window.scrollY > 50) {
+                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.98)';
+                nav.style.boxShadow = '0 2px 10px rgba(0,0,0,0.1)';
+            } else {
+                nav.style.backgroundColor = 'rgba(255, 255, 255, 0.95)';
+                nav.style.boxShadow = 'none';
+            }
+        });
+
+        // Animation for statistics numbers
+        const observerOptions = {
+            threshold: 0.5
+        };
+
+        const observer = new IntersectionObserver(function(entries, observer) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const statNumbers = entry.target.querySelectorAll('.stat-number');
+                    statNumbers.forEach(stat => {
+                        const targetNumber = parseInt(stat.textContent);
+                        animateNumber(stat, targetNumber);
+                    });
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, observerOptions);
+
+        document.querySelector('.statistics-grid').forEach(section => {
+            observer.observe(section);
+        });
+
+        function animateNumber(element, target) {
+            let current = 0;
+            const increment = target / 50;
+            const duration = 1500;
+            const interval = duration / 50;
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + '%';
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.round(current) + '%';
+                }
+            }, interval);
+        }
+    </script>
+</body>
+</html>

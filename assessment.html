@@ -1,0 +1,542 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Sleep Assessment - SleepCare India</title>
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: "Arial", sans-serif;
+            }
+
+            body {
+                background-color: #f0f2f5;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                min-height: 100vh;
+                padding: 20px;
+                flex-direction: column;
+            }
+
+            .container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+
+            hr {
+                height: 1px;
+                background-color: rgba(16, 86, 82, 0.75);
+                border: none;
+                margin: 15px 0;
+            }
+
+            .card {
+                width: 400px;
+                background: rgb(255, 250, 235);
+                box-shadow:
+                    0px 187px 75px rgba(0, 0, 0, 0.01),
+                    0px 105px 63px rgba(0, 0, 0, 0.05),
+                    0px 47px 47px rgba(0, 0, 0, 0.09),
+                    0px 12px 26px rgba(0, 0, 0, 0.1),
+                    0px 0px 0px rgba(0, 0, 0, 0.1);
+                margin-bottom: 20px;
+            }
+
+            .title {
+                width: 100%;
+                height: 40px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                padding-left: 20px;
+                border-bottom: 1px solid rgba(16, 86, 82, 0.75);
+                font-weight: 700;
+                font-size: 11px;
+                color: #000000;
+            }
+
+            .cart {
+                border-radius: 19px 19px 0px 0px;
+            }
+
+            .cart .steps {
+                display: flex;
+                flex-direction: column;
+                padding: 20px;
+            }
+
+            .cart .steps .step {
+                display: grid;
+                gap: 10px;
+            }
+
+            .cart .steps .step span {
+                font-size: 13px;
+                font-weight: 600;
+                color: #000000;
+                margin-bottom: 8px;
+                display: block;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .input_field {
+                width: 100%;
+                height: 36px;
+                padding: 0 0 0 12px;
+                border-radius: 5px;
+                outline: none;
+                border: 1px solid rgb(16, 86, 82);
+                background-color: rgb(251, 243, 228);
+                transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+                font-size: 13px;
+            }
+
+            .input_field:focus {
+                border: 1px solid transparent;
+                box-shadow: 0px 0px 0px 2px rgb(251, 243, 228);
+                background-color: rgb(201, 193, 178);
+            }
+
+            select.input_field {
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+                background-repeat: no-repeat;
+                background-position: right 1rem center;
+                background-size: 1em;
+            }
+
+            .checkout .footer {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 10px 10px 10px 20px;
+                background-color: rgba(16, 86, 82, 0.5);
+            }
+
+            .submit-btn {
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+                width: 150px;
+                height: 36px;
+                background: rgba(16, 86, 82, 0.55);
+                box-shadow:
+                    0px 0.5px 0.5px rgba(16, 86, 82, 0.75),
+                    0px 1px 0.5px rgba(16, 86, 82, 0.75);
+                border-radius: 7px;
+                border: 1px solid rgb(16, 86, 82);
+                color: #000000;
+                font-size: 13px;
+                font-weight: 600;
+                transition: all 0.3s cubic-bezier(0.15, 0.83, 0.66, 1);
+                cursor: pointer;
+            }
+
+            .submit-btn:hover {
+                background: rgba(16, 86, 82, 0.65);
+            }
+
+            .back-link {
+                display: inline-block;
+                margin-top: 16px;
+                color: rgba(16, 86, 82, 0.75);
+                text-decoration: none;
+                font-size: 12px;
+                margin-left: 20px;
+            }
+
+            .back-link:hover {
+                text-decoration: underline;
+            }
+
+            .subtitle {
+                font-size: 12px;
+                color: #666;
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+
+            /* Result Display Styles */
+            .result-container {
+                margin: 2rem auto;
+                padding: 1.5rem;
+                max-width: 400px;
+                background: linear-gradient(
+                    135deg,
+                    rgba(16, 86, 82, 0.8),
+                    rgba(26, 122, 117, 0.8)
+                );
+                border-radius: 12px;
+                box-shadow: 0 8px 24px rgba(16, 86, 82, 0.2);
+                transform-style: preserve-3d;
+                perspective: 1000px;
+            }
+
+            .result-content {
+                background: rgb(255, 250, 235);
+                padding: 1.5rem;
+                border-radius: 8px;
+                text-align: center;
+                animation: fadeIn 0.6s ease-out;
+            }
+
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+
+            .result-text {
+                font-family: "Arial", sans-serif;
+                font-size: 1.25rem;
+                font-weight: 600;
+                background: linear-gradient(90deg, #105652, #1a7a75);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+                margin: 0;
+            }
+
+            .result-icon {
+                font-size: 1.5rem;
+                margin-bottom: 0.5rem;
+            }
+
+            @media (hover: hover) {
+                .result-container:hover {
+                    transform: rotateX(2deg) rotateY(2deg);
+                    transition: transform 0.3s ease;
+                }
+            }
+
+            .info-card {
+                position: relative;
+                width: 400px;
+                height: 200px;
+                background-color: #f2f2f2;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                perspective: 1000px;
+                box-shadow: 0 0 0 5px #ffffff80;
+                transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                outline: none;
+                backface-visibility: hidden;
+                will-change: transform;
+            }
+
+            .info-card:hover {
+                transform: scale3d(1.05, 1.05, 1.05);
+                box-shadow: 0 8px 16px rgba(255, 255, 255, 0.2);
+                outline: 3px solid black;
+            }
+
+            .info-card__content {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                padding: 20px;
+                box-sizing: border-box;
+                background-color: #f2f2f2;
+                transform: rotateX(-90deg);
+                transform-origin: bottom;
+                transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                backface-visibility: hidden;
+                will-change: transform;
+                -webkit-font-smoothing: antialiased;
+                text-rendering: optimizeLegibility;
+            }
+
+            .info-card:hover .info-card__content {
+                transform: rotateX(0deg);
+            }
+
+            .info-card__title {
+                margin: 0;
+                font-size: 24px;
+                color: #333;
+                font-weight: 700;
+            }
+
+            .info-card:hover svg {
+                scale: 0;
+            }
+
+            .info-card__description {
+                margin: 10px 0 0;
+                font-size: 14px;
+                color: #777;
+                line-height: 1.4;
+            }
+
+            .info-card-container {
+                display: flex;
+                gap: 20px;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="card cart">
+                <label class="title">SLEEP ASSESSMENT</label>
+                <p class="subtitle">
+                    Please fill in your details for a personalized sleep
+                    analysis
+                </p>
+                <div class="steps">
+                    <div class="step">
+                        <form id="sleepAssessmentForm">
+                            <div class="form-group">
+                                <span>BMI CATEGORY</span>
+                                <select
+                                    id="BMI Category"
+                                    name="BMI Category"
+                                    class="input_field"
+                                    required
+                                >
+                                    <option value="">
+                                        Select BMI Category
+                                    </option>
+                                    <option value="0">Normal</option>
+                                    <option value="1">Overweight</option>
+                                    <option value="2">Obese</option>
+                                </select>
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <span>AGE</span>
+                                <input
+                                    type="number"
+                                    id="Age"
+                                    name="Age"
+                                    class="input_field"
+                                    required
+                                    min="1"
+                                    max="120"
+                                />
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <span>SLEEP DURATION (HOURS)</span>
+                                <input
+                                    type="number"
+                                    id="Sleep Duration"
+                                    name="Sleep Duration"
+                                    class="input_field"
+                                    required
+                                    min="0"
+                                    max="24"
+                                    step="0.1"
+                                />
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <span
+                                    >PHYSICAL ACTIVITY LEVEL (MINUTES/DAY)</span
+                                >
+                                <input
+                                    type="number"
+                                    id="Physical Activity Level"
+                                    name="Physical Activity Level"
+                                    class="input_field"
+                                    required
+                                    min="0"
+                                    max="1440"
+                                />
+                            </div>
+
+                            <hr />
+
+                            <div class="form-group">
+                                <span>DAILY STEPS</span>
+                                <input
+                                    type="number"
+                                    id="Daily Steps"
+                                    name="Daily Steps"
+                                    class="input_field"
+                                    required
+                                    min="0"
+                                    max="100000"
+                                />
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card checkout">
+                <div class="footer">
+                    <button
+                        type="submit"
+                        form="sleepAssessmentForm"
+                        class="submit-btn"
+                    >
+                        Submit Assessment
+                    </button>
+                </div>
+            </div>
+
+            <!-- Result Display Section -->
+            <div
+                class="result-container"
+                style="display: none"
+                id="resultContainer"
+            >
+                <div class="result-content">
+                    <div class="result-icon">💤</div>
+                    <p class="result-text" id="result">
+                        Your Result Will Appear Here
+                    </p>
+                </div>
+            </div>
+
+            <div class="info-card-container">
+                <!-- Insomnia Card -->
+                <div class="info-card">
+                    <p>RESULT 1</p>
+                    <div class="info-card__content">
+                        <p class="info-card__title">Insomnia</p>
+                        <p class="info-card__description">
+                            A sleep disorder characterized by difficulty falling
+                            asleep, staying asleep, or both, leading to poor
+                            sleep quality and daytime fatigue. It can be
+                            short-term or chronic, affecting mental and physical
+                            health.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Sleep Apnea Card -->
+                <div class="info-card">
+                    <p>RESULT 2</p>
+                    <div class="info-card__content">
+                        <p class="info-card__title">Sleep Apnea</p>
+                        <p class="info-card__description">
+                            A serious sleep disorder where breathing repeatedly
+                            stops and starts during sleep. It can cause loud
+                            snoring, gasping, and interruptions in breathing,
+                            leading to poor sleep quality and potential health
+                            risks.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Healthy Sleep Card -->
+                <div class="info-card">
+                    <p>RESULT 3</p>
+                    <div class="info-card__content">
+                        <p class="info-card__title">Healthy Sleep</p>
+                        <p class="info-card__description">
+                            Very Good! Maintaining a consistent sleep schedule,
+                            creating a comfortable sleep environment, and
+                            practicing good sleep hygiene can lead to optimal
+                            rest and overall well-being.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <a href="homepage.html" class="back-link">← Back to Home</a>
+        </div>
+
+        <script>
+            document
+                .getElementById("sleepAssessmentForm")
+                .addEventListener("submit", async function (e) {
+                    e.preventDefault();
+
+                    const submitButton = document.querySelector(".submit-btn");
+                    submitButton.disabled = true;
+                    submitButton.textContent = "Processing...";
+
+                    try {
+                        // Collect input data
+                        const formData = {
+                            "BMI Category": parseInt(
+                                document.getElementById("BMI Category").value,
+                            ),
+                            Age: parseInt(document.getElementById("Age").value),
+                            "Sleep Duration": parseFloat(
+                                document.getElementById("Sleep Duration").value,
+                            ),
+                            "Physical Activity Level": parseInt(
+                                document.getElementById(
+                                    "Physical Activity Level",
+                                ).value,
+                            ),
+                            "Daily Steps": parseInt(
+                                document.getElementById("Daily Steps").value,
+                            ),
+                        };
+
+                        console.log("Collected form data:", formData);
+                        // Send POST request to Flask backend
+                        const response = await fetch(
+                            "http://127.0.0.1:5000/predict",
+                            {
+                                method: "POST",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                },
+                                body: JSON.stringify(formData),
+                            },
+                        );
+
+                        const result = await response.json();
+
+                        if (response.ok) {
+                            const resultText =
+                                result["Final Prediction"] ||
+                                "No prediction available";
+                            const resultContainer =
+                                document.getElementById("resultContainer");
+                            const resultElement =
+                                document.getElementById("result");
+
+                            resultElement.textContent = `Prediction: ${resultText}`;
+                            resultContainer.style.display = "block";
+                        } else {
+                            throw new Error(
+                                result.message ||
+                                    "Failed to fetch the prediction.",
+                            );
+                        }
+                    } catch (error) {
+                        console.error("Error:", error.message);
+                        alert("An error occurred: " + error.message);
+                    } finally {
+                        submitButton.disabled = false;
+                        submitButton.textContent = "Submit Assessment";
+                    }
+                });
+        </script>
+    </body>
+</html>
