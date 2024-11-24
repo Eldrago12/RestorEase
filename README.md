@@ -119,6 +119,16 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
 - Neural Network Accuracy: 90.91%
 - Meta-Model Accuracy: 90.91%
 
+
+
+## Clone the Repository:
+
+   ```bash
+   git clone https://github.com/Eldrago12/RestorEase.git
+   cd RestorEase
+   ```
+
+
 ## Testing Pipeline
 
   ```bash
