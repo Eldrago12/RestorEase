@@ -24,9 +24,9 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
 - Feature selection using Random Forest.
 - Neural Network with:
 
-  -**256 neurons per layer**
-  -**Dropout regularization**
-  -**ReLU activation**
+  - **256 neurons per layer**
+  - **Dropout regularization**
+  - **ReLU activation**
 
 ## Meta-model (LightGBM) combining:
 
@@ -93,7 +93,7 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
   
   - Loss: Sparse Categorical Crossentropy.
   - Optimizer: RMSProp with learning rate 1e-4.
-  - Regularization: l2.
+  - Regularization: L2.
 
 - Training:
   
@@ -225,3 +225,29 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
     ```bash
     python app.py
     ```
+
+  - **Option 2: AWS Lambda**
+
+    Convert the TensorFlow model to TFlite:
+
+    ```bash
+    pip install tflite-runtime
+    
+    python -m tflite.convert --saved-model neural.h5 --output neural.tflite
+    ```
+
+    Package Artifacts:
+
+    ```bash
+    zip -r deployment.zip neural.tflite optim.pkl scaler.pkl rf_model.pkl sleep_disorder_encoder.pkl top_feature_names.pkl lambda_function.py
+    ```
+
+    Deploy to AWS Lambda:
+
+    - Use Lambda Layers for dependencies
+    - Set up an API Gateway for inference
+
+
+## Conclusion
+
+This project demonstrates the power of combining Neural Networks, Random Forest, and a LightGBM meta-model to achieve state-of-the-art results in sleep disorder prediction. Its flexibility for deployment ensures usability across platforms.
