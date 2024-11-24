@@ -28,11 +28,11 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
   -**Dropout regularization**
   -**ReLU activation**
 
-##Meta-model (LightGBM) combining:
+## Meta-model (LightGBM) combining:
 
-  -**Neural Network predictions**
-  -**Random Forest probabilities**
-  -**Top 5 features**
+  - **Neural Network predictions**
+  - **Random Forest probabilities**
+  - **Top 5 features**
 
 
 ## Dataset Preprocessing
@@ -71,40 +71,50 @@ Sleep disorders affect millions of individuals worldwide. Early and accurate det
 ## Model Building
 
 1. Random Forest for Feature Selection
+
 - Identified the top 5 features:
-  - BMI Category
-  - Age
-  - Sleep Duration
-  - Physical Activity Level
-  - Daily Steps
+  
+  - **BMI Category**
+  - **Age**
+  - **Sleep Duration**
+  - **Physical Activity Level**
+  - **Daily Steps**
 
 
 2. Neural Network
-Architecture:
-Input layer with 256 neurons.
-Hidden layers with Dropout and ReLU activation.
-Output layer with softmax activation.
 
-Optimization:
-Loss: Sparse Categorical Crossentropy.
-Optimizer: RMSProp with learning rate 1e-4.
-Regularization: l2.
+- Architecture:
+  
+  - Input layer with 256 neurons.
+  - Hidden layers with Dropout and ReLU activation.
+  - Output layer with softmax activation.
 
-Training:
-Class weights to handle imbalance.
-Early stopping and learning rate reduction.
+- Optimization:
+  
+  - Loss: Sparse Categorical Crossentropy.
+  - Optimizer: RMSProp with learning rate 1e-4.
+  - Regularization: l2.
+
+- Training:
+  
+  - Class weights to handle imbalance.
+  - Early stopping and learning rate reduction.
 
 
 3. LightGBM Meta-Model
-Combined:
-Neural Network predictions.
-Random Forest probabilities.
-Top 5 features.
 
-Regularization parameters:
-reg_alpha=2.0, reg_lambda=2.0.
+- Combined:
+
+ - **Neural Network predictions**
+ - **Random Forest probabilities**
+ - **Top 5 features**
+
+- Regularization parameters:
+  
+ - **reg_alpha=2.0, reg_lambda=2.0**
 
 
-Training Results
-Neural Network Accuracy: 90.91%.
-Meta-Model Accuracy: 90.91%.
+## Training Results:
+
+- Neural Network Accuracy: 90.91%
+- Meta-Model Accuracy: 90.91%
